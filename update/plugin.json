@@ -1,6 +1,6 @@
 {
 	"name": "Bootstrap + CF7",
-	"version": "0.16.1",
+	"version": "0.16.3",
 	"download_url": "https://github.com/Webton-Network/bootstrap-cf7-main/archive/refs/heads/main.zip",
 	"homepage": "http://webton.ru/",
 	"requires": "6.0",

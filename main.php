@@ -8,17 +8,17 @@
  * Version: 0.16
  */
 
-// Проверка обновлений плагина
-require 'update/plugin-update-checker.php';
-$BCF7_UpdateChecker = PucFactory::buildUpdateChecker(
-	'https://github.com/Webton-Network/bootstrap-cf7-main/update/plugin.json',
-	__FILE__,
-	'bootstrap-cf7-main'
-);
+// ================== Проверка обновлений плагина ================== //
+    require_once __DIR__ . '/update/update-checker.php';
+    use YahnisElsts\PluginUpdateChecker\v5\PucFactory;
 
-// //Set the branch that contains the stable release.
-// $BCF7_UpdateChecker->setBranch('main');
+    $BCF7_UpdateChecker = PucFactory::buildUpdateChecker(
+        'https://github.com/Webton-Network/bootstrap-cf7-main',
+        __FILE__,
+        'bootstrap-cf7-main'
+    );
 
-// //Optional: If you're using a private repository, specify the access token like this:
-// $BCF7_UpdateChecker->setAuthentication('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');
+    $BCF7_UpdateChecker->setBranch('main');
+    $BCF7_UpdateChecker->setAuthentication('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');
+// ============================= КОНЕЦ ============================= //
 ?>

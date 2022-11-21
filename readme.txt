@@ -27,5 +27,8 @@ License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
 == Список изменений ==
 
+= 1.0.1 =
+* Js-файлы минифифицированы.
+
 = 1.0 =
 * Релиз.

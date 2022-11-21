@@ -5,7 +5,7 @@
  * Description: Добавляет в CF7 поддержку компонентов Bootstrap (алерты, радио, чекбоксы) и дополнительные функции. Требует установленного плагина Contact Form 7.
  * Author: Вебтон.ру
  * Author URI: https://webton.ru
- * Version: 1.0
+ * Version: 1.0.1
  */
 
 // Проверка обновлений плагина 
@@ -54,7 +54,7 @@ add_filter( 'shortcode_atts_wpcf7', 'wpcf7_add_assets' );
 
 // Регистрация стилей и сриптов
 function bscf7_scripts() {
-    wp_register_script( 'cf-script', plugins_url( '/js/contactform.js' , __FILE__ ), array( 'jquery' ), '1.0', true );
+    wp_register_script( 'cf-script', plugins_url( '/js/contactform.min.js' , __FILE__ ), array( 'jquery' ), '1.0', true );
     wp_register_style( 'cf-style', plugins_url('css/contactform.min.css', __FILE__) );
 }
 add_action('wp_enqueue_scripts','bscf7_scripts');

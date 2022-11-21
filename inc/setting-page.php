@@ -3,7 +3,7 @@
  * Страница настроек плагина
  * 
  * @package bootstrap-cf7-main
- * @version 0.16.3
+ * @version 1.0
  */
 
 // регистрация пункта меню

@@ -43,7 +43,7 @@ add_action( 'wpcf7_init', 'wpcf7_remove_assets' );
 function wpcf7_add_assets( $atts ) {
     wpcf7_enqueue_styles();
     wpcf7_enqueue_scripts();
-    if ( !is_front_page() && !is_home() ) {
+    if ( function_exists('wpcf7cf_enqueue_scripts') || !is_front_page() && !is_home() ) {
         wpcf7cf_enqueue_scripts();
         wpcf7cf_enqueue_styles();
     }

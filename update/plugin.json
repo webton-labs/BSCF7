@@ -1,15 +1,14 @@
 {
 	"name": "Bootstrap + CF7",
-	"version": "1.0.3",
-	"download_url": "https://github.com/Webton-Network/bootstrap-cf7-main/archive/refs/heads/main.zip",
+	"version": "1.0.4",
+	"download_url": "https://github.com/Webton-Network/BSCF7/archive/refs/heads/main.zip",
 	"homepage": "http://webton.ru/",
 	"requires": "6.0",
 	"author": "Вебтон.ру",
 	"author_homepage": "http://webton.ru/",
 	"sections": {
-		"description": "(Required) Plugin description. Basic HTML can be used in all sections.",
-		"installation": "(Recommended) Installation instructions.",
-		"changelog": "(Recommended) Changelog. <p>This section will be displayed by default when the user clicks 'View version x.y.z details'.</p>",
-		"custom_section": "This is a custom section labeled 'Custom Section'."
+		"description": "Плагин делает магию, добавляя в CF7 поддержку классов Bootstrap и расширяет функционал основного плагина.",
+		"installation": "Устанавливается как обычный плагин. Требуется наличие установленного плагина <a href='https://ru.wordpress.org/plugins/contact-form-7/'>Contact Form 7</a>.",
+		"changelog": "<p>Список изменений:</p><ol><li>Обновлена структура плагина</li><li>Баг-фиксы</li></ol>"
 	}
 }

@@ -5,7 +5,7 @@
  * Description: Добавляет в CF7 поддержку компонентов Bootstrap (алерты, радио, чекбоксы) и дополнительные функции. Требует установленного плагина Contact Form 7.
  * Author: Вебтон.ру
  * Author URI: https://webton.ru
- * Version: 1.0.4
+ * Version: 1.0.5
  */
 
 // Проверка обновлений плагина 
@@ -31,21 +31,26 @@ if (get_option( 'autop_disable' ) == 1) {
 }
 // Конец
 
-// Подключение стилей и сриптов CF7 только на страницах, где выведен [шорткод]
+// Отключение
 function wpcf7_remove_assets() {
     add_filter( 'wpcf7_load_js', '__return_false' );
     add_filter( 'wpcf7_load_css', '__return_false' );
-    add_filter( 'wpcf7cf_load_js', '__return_false' );
-    add_filter( 'wpcf7cf_load_css', '__return_false' );
 }
 add_action( 'wpcf7_init', 'wpcf7_remove_assets' );
+// Конец
 
-function wpcf7_add_assets( $atts ) {
-    wpcf7_enqueue_styles();
-    wpcf7_enqueue_scripts();
-    return $atts;
+// Асинхонная загрука
+function bscf7_asyncdefer_attribute($tag, $handle) {
+
+    $scripts_to_defer = array('index.js', 'contactform.min.js' );
+    foreach($scripts_to_defer as $defer_script){
+        if(true == strpos($tag, $defer_script ) )
+        return str_replace( ' src', ' defer="defer" src', $tag );	
+    }
+    return $tag;
+
 }
-add_filter( 'shortcode_atts_wpcf7', 'wpcf7_add_assets' );
+add_filter('script_loader_tag', 'bscf7_asyncdefer_attribute', 10, 2);
 // Конец
 
 // Регистрация стилей и сриптов
@@ -58,6 +63,7 @@ add_action('wp_enqueue_scripts','bscf7_scripts');
 function bscf7_add_assets( $atts ) {
     wp_enqueue_style( 'cf-style' );
 	wp_enqueue_script( 'cf-script' );
+    wpcf7_enqueue_scripts();
 	return $atts;
 }
 add_filter( 'shortcode_atts_wpcf7', 'bscf7_add_assets' );

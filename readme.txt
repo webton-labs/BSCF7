@@ -26,6 +26,8 @@ License URI: https://www.gnu.org/licenses/gpl-2.0.html
 2. This is the second screen shot
 
 == Список изменений ==
+= 1.0.6 =
+* Фикс критической ошибки при размещении [шорткода] через редактор Gutenberg
 
 = 1.0.5 =
 * Фикс ошибки, из-за которой некорректно работал плагина CF7 Conditional Fields

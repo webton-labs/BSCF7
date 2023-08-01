@@ -20,7 +20,7 @@ function bscf7_settings_menu_page() {
 }
  
 // Каллбек функция
-function bscf7_setting_page_callback(){
+function bscf7_setting_page_callback(): void {
 	echo '<div class="wrap">
 	<h1>' . get_admin_page_title() . '</h1>
 	<p>' . __('Страница настроек плагина BSCF7', 'bootstrap_cf7') . '</p>

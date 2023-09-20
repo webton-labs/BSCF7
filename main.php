@@ -47,7 +47,7 @@ if(in_array('contact-form-7/wp-contact-form-7.php', apply_filters('active_plugin
 		 * Отключение стилей и скриптов Contact Form 7
 		 * @return void
 		 */
-		function wpcf7_remove_assets(): void {
+		function wpcf7_remove_assets() {
 //			add_filter( 'wpcf7_load_js', '__return_false' );
 			add_filter( 'wpcf7_load_css', '__return_false' );
 		}
@@ -61,7 +61,7 @@ if(in_array('contact-form-7/wp-contact-form-7.php', apply_filters('active_plugin
 		 *
 		 * @return array|mixed|string|string[]
 		 */
-		function bscf7_asyncdefer_attribute($tag, $handle): mixed {
+		function bscf7_asyncdefer_attribute($tag, $handle) {
 			$scripts_to_defer = array('index.js', 'contactform.min.js' );
 			foreach($scripts_to_defer as $defer_script){
 				if( strpos( $tag, $defer_script ) )
@@ -75,7 +75,7 @@ if(in_array('contact-form-7/wp-contact-form-7.php', apply_filters('active_plugin
 		 * Регистрация стилей и скриптов плагина
 		 * @return void
 		 */
-		function bscf7_scripts(): void {
+		function bscf7_scripts() {
 			wp_register_script( 'cf-script', plugins_url( '/js/contactform.min.js' , __FILE__ ), array( 'jquery' ), '1.0', true );
 			wp_register_style( 'cf-style', plugins_url('css/contactform.min.css', __FILE__) );
 		}
@@ -89,7 +89,7 @@ if(in_array('contact-form-7/wp-contact-form-7.php', apply_filters('active_plugin
 		 *
 		 * @return mixed
 		 */
-		function bscf7_add_assets( $atts ): mixed {
+		function bscf7_add_assets( $atts ){
 			wp_enqueue_style( 'cf-style' );
 			wp_enqueue_script( 'cf-script' );
 			wpcf7_enqueue_scripts();
@@ -118,7 +118,7 @@ if(in_array('contact-form-7/wp-contact-form-7.php', apply_filters('active_plugin
 		 * Отмена регистрации стилей Contact Form 7
 		 * @return void
 		 */
-		function bscf7_deregister_styles(): void {
+		function bscf7_deregister_styles() {
 			wp_deregister_style( 'contact-form-7' );
 		}
 		add_action( 'wp_print_styles', 'bscf7_deregister_styles', 100 );

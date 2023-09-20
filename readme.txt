@@ -26,6 +26,9 @@ License URI: https://www.gnu.org/licenses/gpl-2.0.html
 2. This is the second screen shot
 
 == Список изменений ==
+= 1.0.8 =
+* Фикс критической ошибки PHP версии меньше 8.0
+
 = 1.0.6 =
 * Фикс критической ошибки при размещении [шорткода] через редактор Gutenberg
 

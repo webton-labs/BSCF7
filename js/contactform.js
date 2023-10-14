@@ -23,4 +23,6 @@ jQuery(document).ready(function ($) {
         $('button.wpcf7-submit').removeAttr('disabled');
     });
 
+    $('.agree').prop('checked', false);
+
 }); // jQuery End

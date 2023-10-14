@@ -34,6 +34,15 @@ function bscf7_setting_page_callback() {
 }
 add_action( 'admin_init',  'bscf7_settings_fields' );
 
+function bscf7_spam_callback() {
+	echo '
+	<div class="card">
+	<p>В плагин встроена <strong>функция для борьбы со спамом</strong>. Для ее использования необходимо в разметку контактной формы добавить код: <p>
+	<code>[acceptance agree class:agree default:on invert]</code>
+	</div>
+	';
+}
+
 // Поля настроек
 function bscf7_settings_fields(){
     // Auto <P>
@@ -41,6 +50,13 @@ function bscf7_settings_fields(){
 		'bscf7_settings_section_rest', 
 		__(''),
 		'',
+		'bscf7_settings'
+	);
+
+	add_settings_section(
+		'bscf7_settings_section_spam', 
+		__('Встроенная борьба со спамом'),
+		'bscf7_spam_callback',
 		'bscf7_settings'
 	);
 

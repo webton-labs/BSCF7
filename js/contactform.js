@@ -1,28 +1,25 @@
-jQuery(document).ready(function ($) {
-
-    /* Валидация сообщений */
-    document.addEventListener('wpcf7invalid', function (event) {
-        $('.wpcf7-response-output').addClass('alert alert-danger');
-    }, false);
-
-    document.addEventListener('wpcf7spam', function (event) {
-        $('.wpcf7-response-output').addClass('alert alert-warning');
-    }, false);
-
-    document.addEventListener('wpcf7mailfailed', function (event) {
-        $('.wpcf7-response-output, .wpcf7-response-output.wpcf7-display-none.wpcf7-acceptance-missing').addClass('alert alert-warning');
-    }, false);
-
-    document.addEventListener('wpcf7mailsent', function (event) {
-        $('.wpcf7-response-output').addClass('alert alert-success');
-        $('.wpcf7-response-output').removeClass('alert-danger');
-        $('button.wpcf7-submit').attr('disabled', 'disabled');
-    }, false);
-
-    $('input').bind('input', function() {
-        $('button.wpcf7-submit').removeAttr('disabled');
+document.addEventListener("DOMContentLoaded", function() {
+    document.addEventListener('wpcf7invalid', (event) => {
+        document.querySelector(".wpcf7-response-output").classList.add("alert", "alert-danger");
     });
+    document.addEventListener('wpcf7spam', (event) => {
+        document.querySelector(".wpcf7-response-output").classList.add("alert", "alert-warning");
+    });
+    document.addEventListener('wpcf7mailfailed', (event) => {
+        const el = document.querySelector(".wpcf7-response-output");
+        el.classList.add("alert", "alert-warning");
 
-    $('.agree').prop('checked', false);
-
-}); // jQuery End
+        if(el.classList.contains("wpcf7-display-none") && el.classList.contains("wpcf7-acceptance-missing")) {
+            const acceptanceMissing = document.createElement("div");
+            acceptanceMissing.innerHTML = "wpcf7-acceptance-missing";
+            el.appendChild(acceptanceMissing);
+        }
+    });
+    document.addEventListener('wpcf7mailsent', (event) => {
+        document.querySelector(".wpcf7-response-output").classList.add("alert", "alert-success");
+    });
+    const checkboxesWithClassAgree = document.getElementsByClassName("agree");
+    for (const checkbox of checkboxesWithClassAgree) {
+        checkbox.checked = false;
+    }
+});

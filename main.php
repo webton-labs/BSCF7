@@ -5,7 +5,7 @@
  * Description: Добавляет в CF7 поддержку компонентов Bootstrap (алерты, радио, чекбоксы) и дополнительные функции. Требует установленного плагина Contact Form 7.
  * Author: Вебтон.ру
  * Author URI: https://webton.ru
- * Version: 1.0.8
+ * Version: 1.1
  */
 
 /**
@@ -14,22 +14,23 @@
 require_once __DIR__ . '/update/update-checker.php';
 use YahnisElsts\PluginUpdateChecker\v5\PucFactory;
 $BCF7_UpdateChecker = PucFactory::buildUpdateChecker(
-    'https://github.com/Webton-Network/BSCF7',
+    'https://github.com/webton-labs/BSCF7',
     __FILE__,
     'BSCF7'
 );
 $BCF7_UpdateChecker->setBranch('main');
-$BCF7_UpdateChecker->setAuthentication('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');
 
 /**
  * Проверка на наличие плагина "Contact Form 7"
  */
 if(in_array('contact-form-7/wp-contact-form-7.php', apply_filters('active_plugins', get_option('active_plugins')))){
 
+	$settings = get_option('bscf7_options');
+
 	/**
 	 * Подключение страницы настроек плагина
 	 */
-	require_once __DIR__ . '/inc/setting-page.php';
+	require_once __DIR__ . '/include/options.php';
 
 	/**
 	 * Подключение функций плагина только во фронтенде
@@ -39,7 +40,7 @@ if(in_array('contact-form-7/wp-contact-form-7.php', apply_filters('active_plugin
 		/**
 		 * Отключение "Auto P"
 		 */
-		if (get_option( 'autop_disable' ) == 1) {
+		if ( isset($settings['autop-disable']) == 1) {
 			add_action( 'wpcf7_autop_or_not', '__return_false' );
 		}
 
@@ -48,7 +49,6 @@ if(in_array('contact-form-7/wp-contact-form-7.php', apply_filters('active_plugin
 		 * @return void
 		 */
 		function wpcf7_remove_assets() {
-//			add_filter( 'wpcf7_load_js', '__return_false' );
 			add_filter( 'wpcf7_load_css', '__return_false' );
 		}
 		add_action( 'wpcf7_init', 'wpcf7_remove_assets' );
@@ -76,8 +76,8 @@ if(in_array('contact-form-7/wp-contact-form-7.php', apply_filters('active_plugin
 		 * @return void
 		 */
 		function bscf7_scripts() {
-			wp_register_script( 'cf-script', plugins_url( '/js/contactform.min.js' , __FILE__ ), array( 'jquery' ), '1.0', true );
-			wp_register_style( 'cf-style', plugins_url('css/contactform.min.css', __FILE__) );
+			wp_register_script( 'cf-script', plugins_url( '/js/contactform.js' , __FILE__ ), array( 'jquery' ), '1.0', true );
+			wp_register_style( 'cf-style', plugins_url('css/contactform.css', __FILE__) );
 		}
 		add_action('wp_enqueue_scripts','bscf7_scripts');
 
@@ -100,7 +100,7 @@ if(in_array('contact-form-7/wp-contact-form-7.php', apply_filters('active_plugin
 		/**
 		 * Удаление wrapper (обертки) вокруг элементов форм
 		 */
-		if (get_option( 'wrapper_disable' ) == 1) {
+		if ( isset($settings['wrapper-disable']) == 1) {
 			add_filter('wpcf7_form_elements', function($content) {
 				return preg_replace('/<(span).*?class="\s*(?:.*\s)?wpcf7-form-control-wrap(?:\s[^"]+)?\s*"[^>]*>(.*)<\/\1>/i', '\2', $content);
 			});
@@ -109,10 +109,14 @@ if(in_array('contact-form-7/wp-contact-form-7.php', apply_filters('active_plugin
 		/**
 		 * Изменение структуры чекбоксов и радио для соответствия
 		 * структуре bootstrap
+		 * 
+		 * @since BSCF7 1.1 Добавлена проверка на активацию функции
 		 */
-		add_filter('wpcf7_form_elements', function ($content) {
-			return preg_replace('/<label><input type="(checkbox|radio)" name="(.*?)" value="(.*?)" \/><span class="wpcf7-list-item-label">/i', '<label class="form-check form-check-inline form-check-\1"><input type="\1" name="\2" value="\3" class="form-check-input"><span class="wpcf7-list-item-label form-check-label">', $content);
-		});
+		if ( isset( $settings['radio-checkbox'] ) == 1 ) {
+			add_filter( 'wpcf7_form_elements', function ($content) {
+				return preg_replace('/<label><input type="(checkbox|radio)" name="(.*?)" value="(.*?)" \/><span class="wpcf7-list-item-label">/i', '<label class="form-check form-check-inline form-check-\1"><input type="\1" name="\2" value="\3" class="form-check-input"><span class="wpcf7-list-item-label form-check-label">', $content);
+			});
+		}
 
 		/**
 		 * Отмена регистрации стилей Contact Form 7
@@ -123,6 +127,41 @@ if(in_array('contact-form-7/wp-contact-form-7.php', apply_filters('active_plugin
 		}
 		add_action( 'wp_print_styles', 'bscf7_deregister_styles', 100 );
 
+		/**
+		 * Ограничение отправки форм по времени
+		 * 
+		 * @since BSCF7 1.1 Функция представлена
+		 */
+		require_once __DIR__ . '/include/form-limiter.php';
+
+		/**
+		 * Дополнительный CSS
+		 * 
+		 * Добавляет инлайн CSS после всех основных стилей
+		 * @since BSCF7 1.1 Функция добавлена
+		 */
+		function custom_css( $atts ) {
+			
+			$settings = get_option('bscf7_options');
+
+			if ( isset($settings['custom-css']) ) {
+				/**
+				 * Переменные
+				 * 
+				 * $handle - Название стилей (идентификатор)
+				 * $data   - Стили из поля "Дополнительный CSS"
+				 */
+				$handle = 'cf7-styles';
+				$data = $settings['custom-css'];
+
+				wp_register_style( $handle, false, array(), true, true );
+				wp_add_inline_style( $handle, $data );
+				wp_enqueue_style( $handle );
+			}
+
+			return $atts;
+		}
+		add_filter( 'shortcode_atts_wpcf7', 'custom_css' );
 	}
 
 } else {

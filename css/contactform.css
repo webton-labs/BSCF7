@@ -1,6 +1,3 @@
-.wpcf7-form {
-    --bscf7-danger: #ff444a;
-}
 span.wpcf7-list-item {
     margin: 0;
 }
@@ -31,13 +28,6 @@ span.wpcf7-not-valid-tip {
     opacity: 1;
     width: 1rem !important;
     transition: margin .3s, width .3s, opacity .3s .3s ease;
-}
-.wpcf7-not-valid {
-    border-color: var(--bscf7-danger) !important;
-}
-  
-label.form-check.form-check-checkbox.not-valid {
-    color: var(--bscf7-danger);
 }
   
 label.form-check.form-check-checkbox.not-valid.checked {
